@@ -28,8 +28,8 @@ templateFromFile fname = do
 
 templateParser :: Parser (Template Directive)
 templateParser = do
-  tmp <- template
   optional shebang
+  tmp <- template
   eof
   return tmp
 
@@ -44,16 +44,19 @@ shebang = "she-bang" ?> liftA2 (++) (string "#!") (manyTill anyChar (char '\n'))
 
 directive :: Parser Directive
 directive = "Directive" ?> do
+  spaces
   _ <- string "{{"
   spaces
-  mCommand <- optionMaybe cmd
+  mCommand <- optionMaybe command
   txt <- manyTill anyChar (string "}}")
+  optional newline
   return $ Directive mCommand (T.pack txt)
 
-cmd :: Parser Command
-cmd = do
+command :: Parser Command
+command = do
   _ <- string "[["
   cmdString <- manyTill anyChar (string "]]")
+  spaces
   return $ Command (T.pack cmdString)
 
 interpolate :: Template Directive -> T.Text

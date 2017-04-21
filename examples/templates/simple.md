@@ -1,12 +1,12 @@
-#!/bin/plated
-{{ value }}
-
+#!/Users/chris/.local/bin/plated-exe
 This is normal Text
-
-{{[[ $this | tr 'a-z' 'A-Z' ]]
+{{[[ tr 'a-z' 'A-Z' ]]
 Testing and stuff
 }}
-
 more text
+{{[[ cat ./lorem.md - ]] 
+the inner text
+}}
 
-{{ value }}{{ value }}
+My env var: {{[[echo $test]]}}
+blah

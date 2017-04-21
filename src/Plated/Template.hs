@@ -1,3 +1,4 @@
+{-# language OverloadedStrings #-}
 module Plated.Template
   ( Template(..)
   , Directive(..)
@@ -5,6 +6,7 @@ module Plated.Template
   ) where
 
 import Plated.Command
+import Data.Foldable
 
 import qualified Data.Text as T
 
@@ -16,7 +18,7 @@ data Directive =
   Directive (Maybe Command) T.Text
   deriving Show
 
-processTemplate :: Template Directive -> T.Text
-processTemplate (Template elems) = foldMap (either id fromDirective) elems
+processTemplate :: Template Directive -> IO T.Text
+processTemplate (Template elems) = fold <$> mapM (either return fromDirective) elems
   where
-    fromDirective (Directive _ txt) = txt
+    fromDirective (Directive mCmd txt) = maybe (return "") (interpCommand txt) mCmd
