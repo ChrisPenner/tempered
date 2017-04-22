@@ -65,7 +65,7 @@ interpolate that
 Installation
 ============
 
-`stack install tempered`
+`stack update && stack install tempered`
 
 FAQ
 =====
