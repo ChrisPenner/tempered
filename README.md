@@ -28,10 +28,9 @@ Check me out on twitter @chrislpenner!
 See you next time!
 ```
 
-Then we can interpolate the template:
+Then we can render the template with `tempered ./post.md` to get:
 
 ```
-$ tempered ./post.md
 # My Blog Post
 
 by Chris Penner
@@ -61,7 +60,7 @@ $ ./test.txt
 interpolate that
 ```
 
-[**Examples Here**](https://github.com/ChrisPenner/tempered/examples/)
+[**Examples Here**](https://github.com/ChrisPenner/tempered/tree/master/examples)
 
 Installation
 ============
