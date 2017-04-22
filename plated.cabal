@@ -18,10 +18,17 @@ library
   exposed-modules:     Plated.Template
                      , Plated.Parser
                      , Plated.Command
+                     , Plated.Yaml
   build-depends:       base >= 4.7 && < 5
                      , text
                      , parsec
                      , process
+                     , yaml
+                     , containers
+                     , aeson
+                     , data-default
+                     , filepath
+                     , directory
   default-language:    Haskell2010
 
 executable plated-exe

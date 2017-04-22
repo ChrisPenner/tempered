@@ -1,12 +1,12 @@
 #!/Users/chris/.local/bin/plated-exe
-This is normal Text
-{{[[ tr 'a-z' 'A-Z' ]]
-Testing and stuff
-}}
-more text
-{{[[ cat ./lorem.md - ]] 
-the inner text
+{{cat | tr 'a-z' 'A-Z' <<EOF
+testing
 }}
 
-My env var: {{[[echo $test]]}}
-blah
+{{ cat ./lorem.md }}
+
+Other text
+
+{{ echo $env }}
+
+go!

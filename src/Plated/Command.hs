@@ -10,9 +10,9 @@ data Command =
   Command T.Text
   deriving Show
 
-interpCommand :: T.Text -> Command -> IO T.Text
-interpCommand inp (Command cmd) = do
-  (_, out, _) <- readCreateProcessWithExitCode (shell $ T.unpack cmd) (T.unpack inp)
+interpCommand :: Command -> IO T.Text
+interpCommand (Command cmd) = do
+  (_, out, _) <- readCreateProcessWithExitCode (shell $ T.unpack cmd) ""
   return . T.pack $ out
 
 
