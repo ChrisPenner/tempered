@@ -11,6 +11,7 @@ import Tempered.Options
 import Tempered.Parser
 import Tempered.Template
 
+-- | Run tempered on cmdline args.
 main :: IO ()
 main = do
   envVars <- getEnvVars
@@ -20,6 +21,7 @@ main = do
   where
     renderOutput = traverse_ (interpTemplate  >=> liftIO . putStr)
 
+-- | Combine local and global environment variables
 getEnvVars :: IO EnvVars
 getEnvVars = do
   cwd <- getCurrentDirectory
