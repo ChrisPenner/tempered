@@ -1,11 +1,11 @@
 {-# language OverloadedStrings #-}
-module Plated.Parser
+module Tempered.Parser
   ( templateFromFile
   , parseTemplate
   , handleTemplateError
   ) where
 
-import Plated.Template
+import Tempered.Template
 import System.Exit
 
 import Control.Applicative (liftA2)

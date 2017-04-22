@@ -7,9 +7,9 @@ import Data.Foldable
 import qualified Data.Map as M
 import Control.Monad.Reader
 
-import Plated.Options
-import Plated.Parser
-import Plated.Template
+import Tempered.Options
+import Tempered.Parser
+import Tempered.Template
 
 main :: IO ()
 main = do

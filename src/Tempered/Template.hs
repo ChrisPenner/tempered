@@ -1,6 +1,6 @@
 {-# language OverloadedStrings #-}
 {-# language FlexibleContexts #-}
-module Plated.Template
+module Tempered.Template
   ( Template(..)
   , Command(..)
   , interpTemplate
@@ -11,7 +11,7 @@ import Control.Monad.Reader
 
 import Data.Foldable
 
-import Plated.Options
+import Tempered.Options
 
 data Template a =
   Template [Either String a]

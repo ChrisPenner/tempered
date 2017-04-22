@@ -1,7 +1,7 @@
-Plated
+Tempered
 ======
 
-[![Hackage](https://img.shields.io/badge/hackage-latest-green.svg)](https://hackage.haskell.org/package/plated)
+[![Hackage](https://img.shields.io/badge/hackage-latest-green.svg)](https://hackage.haskell.org/package/tempered)
 
 A dead-simple templating utility for simple shell interpolation.
 Use at your own risk and only on trusted templates.
@@ -31,7 +31,7 @@ See you next time!
 Then we can interpolate the template:
 
 ```
-$ plated ./post.md
+$ tempered ./post.md
 # My Blog Post
 
 by Chris Penner
@@ -46,11 +46,11 @@ SEE YOU NEXT TIME!
 ```
 
 If you want you can add a shebang to the top of your template and just run it
-as an executable, plated will strip the shebang for you automagically:
+as an executable, tempered will strip the shebang for you automagically:
 
 > test.txt
 ```
-#!/path/to/plated
+#!/path/to/tempered
 interpolate {{ echo $THIS }}
 ```
 
@@ -61,12 +61,12 @@ $ ./test.txt
 interpolate that
 ```
 
-[**Examples Here**](https://github.com/ChrisPenner/plated/examples/)
+[**Examples Here**](https://github.com/ChrisPenner/tempered/examples/)
 
 Installation
 ============
 
-`stack install plated`
+`stack install tempered`
 
 FAQ
 =====
@@ -83,7 +83,7 @@ Sure; It's bash.
 Hello, my name is {{echo $USER}}
 ```
 
-You can set up environment overrides in `env.yaml`, plated looks up through
+You can set up environment overrides in `env.yaml`, tempered looks up through
 the file-system to find an `env.yaml` from the cwd NOT the template location.
 
 Here's an example env.yaml; we can do simple strings or commands here; just make
@@ -91,7 +91,7 @@ sure to quote any entries that start with `{{` or the YAML parser gets mad.
 
 > env.yaml
 ```yaml
-PROJECT: Plated
+PROJECT: Tempered
 DATE: "{{ date +'%B %d, %Y' }}"
 ```
 

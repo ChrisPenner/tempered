@@ -1,5 +1,5 @@
 {-# language LambdaCase #-}
-module Plated.Options
+module Tempered.Options
   ( EnvVars
   , getProjectOptions
   ) where
