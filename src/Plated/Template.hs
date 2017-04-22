@@ -2,22 +2,33 @@
 {-# language FlexibleContexts #-}
 module Plated.Template
   ( Template(..)
-  , processTemplate
+  , Command(..)
+  , interpTemplate
   ) where
 
+import System.Process
 import Control.Monad.Reader
+
 import Data.Foldable
+import qualified Data.Map as M
 
-import Plated.Command
-import Plated.Yaml
-
-import qualified Data.Text as T
+import Plated.Options hiding (env)
 
 data Template a =
-  Template [Either T.Text a]
+  Template [Either String a]
   deriving Show
 
-processTemplate :: (MonadReader EnvVars m, MonadIO m) => Template Command -> m T.Text
-processTemplate (Template elems) = fold <$> mapM toText elems
+interpTemplate :: (MonadReader (Maybe EnvVars) m, MonadIO m) => Template Command -> m String
+interpTemplate (Template elems) = fold <$> mapM toText elems
     where
       toText = either return interpCommand
+
+data Command =
+  Command String
+  deriving Show
+
+interpCommand :: (MonadReader (Maybe EnvVars) m, MonadIO m) => Command -> m String
+interpCommand (Command cmd) = do
+  envVars <- ask
+  let process = (shell cmd){env=M.toList <$> envVars}
+  liftIO $ readCreateProcess process ""

@@ -6,21 +6,22 @@ import System.Directory
 import Data.Foldable
 import Control.Monad.Reader
 
-import qualified Data.Text as T
-import qualified Data.Text.IO as TIO
-
-import Plated.Yaml
+import Plated.Options
 import Plated.Parser
 import Plated.Template
 
 main :: IO ()
 main = do
-  cwd <- getCurrentDirectory
-  options <- getProjectOptions cwd
-  envTemplates <- traverse (handleTemplateError . parseTemplate "env.yaml" . T.pack) (_env options)
-  envVars <- flip runReaderT mempty $ traverse processTemplate envTemplates
+  envVars <- getEnvVars
   filenames <- getArgs
-  templates <- traverse templateFromFile filenames >>= traverse handleTemplateError
-  flip runReaderT (T.unpack <$> envVars) $ processTemplates templates
+  templates <- traverse (templateFromFile >=> handleTemplateError) filenames
+  runReaderT (renderOutput templates) (Just envVars)
   where
-    processTemplates = traverse_ (processTemplate >=> liftIO . TIO.putStr)
+    renderOutput = traverse_ (interpTemplate  >=> liftIO . putStr)
+
+getEnvVars :: IO EnvVars
+getEnvVars = do
+  cwd <- getCurrentDirectory
+  PlatedOptions{env=envVars} <- getProjectOptions cwd
+  envTemplates <- traverse (handleTemplateError . parseTemplate "env.yaml") envVars
+  runReaderT (traverse interpTemplate envTemplates) mempty

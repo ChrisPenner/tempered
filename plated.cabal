@@ -17,8 +17,7 @@ library
   hs-source-dirs:      src
   exposed-modules:     Plated.Template
                      , Plated.Parser
-                     , Plated.Command
-                     , Plated.Yaml
+                     , Plated.Options
   build-depends:       base >= 4.7 && < 5
                      , text
                      , parsec

@@ -1,7 +1,6 @@
 {-# language LambdaCase #-}
 {-# language TemplateHaskell #-}
-{-# language ViewPatterns #-}
-module Plated.Yaml
+module Plated.Options
   ( PlatedOptions(..)
   , getProjectOptions
   , EnvVars
@@ -16,22 +15,21 @@ import Data.Maybe
 import Data.Default
 import Data.List
 
-
 import System.FilePath
 import System.Directory
 import System.Exit
 
 type EnvVars = M.Map String String
 data PlatedOptions = PlatedOptions
-  { _env :: EnvVars
-  , _output :: String
+  { env :: EnvVars
+  , output :: String
   } deriving Show
 
 instance Default PlatedOptions where
   def = PlatedOptions M.empty "./"
 
 -- Derive toJSON, fromJSON
-$(deriveJSON defaultOptions{fieldLabelModifier=drop 1} ''PlatedOptions)
+$(deriveJSON defaultOptions ''PlatedOptions)
 
 getProjectOptions :: FilePath -> IO PlatedOptions
 getProjectOptions path = do

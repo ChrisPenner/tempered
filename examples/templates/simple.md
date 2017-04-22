@@ -9,5 +9,6 @@ Other text
 
 Title: {{ echo $title }}
 Date: {{ echo $date }}
+Hello: {{ echo $hello }}
 
 go!
