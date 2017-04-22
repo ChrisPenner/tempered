@@ -24,8 +24,6 @@ library
                      , process
                      , yaml
                      , containers
-                     , aeson
-                     , data-default
                      , filepath
                      , directory
                      , mtl

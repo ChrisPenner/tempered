@@ -12,7 +12,7 @@ import Control.Monad.Reader
 import Data.Foldable
 import qualified Data.Map as M
 
-import Plated.Options hiding (env)
+import Plated.Options
 
 data Template a =
   Template [Either String a]

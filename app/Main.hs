@@ -22,6 +22,6 @@ main = do
 getEnvVars :: IO EnvVars
 getEnvVars = do
   cwd <- getCurrentDirectory
-  PlatedOptions{env=envVars} <- getProjectOptions cwd
+  envVars <- getProjectOptions cwd
   envTemplates <- traverse (handleTemplateError . parseTemplate "env.yaml") envVars
   runReaderT (traverse interpTemplate envTemplates) mempty

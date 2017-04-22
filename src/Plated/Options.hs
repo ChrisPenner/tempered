@@ -1,18 +1,14 @@
 {-# language LambdaCase #-}
-{-# language TemplateHaskell #-}
 module Plated.Options
-  ( PlatedOptions(..)
+  ( EnvVars
   , getProjectOptions
-  , EnvVars
   ) where
 
 import Control.Monad
 
 import Data.Yaml as Y
-import Data.Aeson.TH
 import qualified Data.Map as M
 import Data.Maybe
-import Data.Default
 import Data.List
 
 import System.FilePath
@@ -20,25 +16,15 @@ import System.Directory
 import System.Exit
 
 type EnvVars = M.Map String String
-data PlatedOptions = PlatedOptions
-  { env :: EnvVars
-  , output :: String
-  } deriving Show
 
-instance Default PlatedOptions where
-  def = PlatedOptions M.empty "./"
-
--- Derive toJSON, fromJSON
-$(deriveJSON defaultOptions ''PlatedOptions)
-
-getProjectOptions :: FilePath -> IO PlatedOptions
+getProjectOptions :: FilePath -> IO EnvVars
 getProjectOptions path = do
   mProjSettingsFile <- findProjSettings path
   mOptions <- traverse optionsFromFilename mProjSettingsFile
-  return $ fromMaybe def mOptions
+  return $ fromMaybe mempty mOptions
 
 -- Retrieve an options object from a yaml file
-optionsFromFilename :: FilePath -> IO PlatedOptions
+optionsFromFilename :: FilePath -> IO EnvVars
 optionsFromFilename = Y.decodeFileEither >=>
   \case
     Left err -> die . prettyPrintParseException $ err
