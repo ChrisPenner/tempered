@@ -29,6 +29,7 @@ library
                      , data-default
                      , filepath
                      , directory
+                     , mtl
   default-language:    Haskell2010
 
 executable plated-exe
@@ -38,6 +39,8 @@ executable plated-exe
   build-depends:       base
                      , plated
                      , text
+                     , directory
+                     , mtl
   default-language:    Haskell2010
 
 test-suite plated-test

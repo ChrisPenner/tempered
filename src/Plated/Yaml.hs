@@ -3,25 +3,27 @@
 {-# language ViewPatterns #-}
 module Plated.Yaml
   ( PlatedOptions(..)
-  , optionsFromFilename
-  , recurseUp
+  , getProjectOptions
+  , EnvVars
   ) where
 
 import Control.Monad
 
 import Data.Yaml as Y
 import Data.Aeson.TH
-import Data.Map as M
+import qualified Data.Map as M
+import Data.Maybe
 import Data.Default
 import Data.List
 
 
 import System.FilePath
--- import System.Directory
+import System.Directory
 import System.Exit
 
+type EnvVars = M.Map String String
 data PlatedOptions = PlatedOptions
-  { _env :: Map String String
+  { _env :: EnvVars
   , _output :: String
   } deriving Show
 
@@ -31,6 +33,12 @@ instance Default PlatedOptions where
 -- Derive toJSON, fromJSON
 $(deriveJSON defaultOptions{fieldLabelModifier=drop 1} ''PlatedOptions)
 
+getProjectOptions :: FilePath -> IO PlatedOptions
+getProjectOptions path = do
+  mProjSettingsFile <- findProjSettings path
+  mOptions <- traverse optionsFromFilename mProjSettingsFile
+  return $ fromMaybe def mOptions
+
 -- Retrieve an options object from a yaml file
 optionsFromFilename :: FilePath -> IO PlatedOptions
 optionsFromFilename = Y.decodeFileEither >=>
@@ -38,8 +46,11 @@ optionsFromFilename = Y.decodeFileEither >=>
     Left err -> die . prettyPrintParseException $ err
     Right options -> return options
 
--- findProjRootFrom :: FilePath -> IO (Maybe FilePath)
--- findProjRootFrom (makeAbsolute -> fpath) = return . pure $ fpath
+findProjSettings :: FilePath -> IO (Maybe FilePath)
+findProjSettings fpath = do
+  absPath <- makeAbsolute fpath
+  let searchPaths = (</> "env.yaml") <$> recurseUp absPath
+  listToMaybe <$> filterM doesFileExist searchPaths
 
 recurseUp :: FilePath -> [FilePath]
 recurseUp = unfoldr go

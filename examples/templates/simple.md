@@ -7,6 +7,7 @@ testing
 
 Other text
 
-{{ echo $env }}
+Title: {{ echo $title }}
+Date: {{ echo $date }}
 
 go!
