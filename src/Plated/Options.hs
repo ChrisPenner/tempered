@@ -15,16 +15,17 @@ import System.FilePath
 import System.Directory
 import System.Exit
 
-type EnvVars = M.Map String String
+type EnvVars = [(String, String)]
+type EnvMap = M.Map String String
 
-getProjectOptions :: FilePath -> IO EnvVars
+getProjectOptions :: FilePath -> IO EnvMap
 getProjectOptions path = do
   mProjSettingsFile <- findProjSettings path
   mOptions <- traverse optionsFromFilename mProjSettingsFile
   return $ fromMaybe mempty mOptions
 
 -- Retrieve an options object from a yaml file
-optionsFromFilename :: FilePath -> IO EnvVars
+optionsFromFilename :: FilePath -> IO EnvMap
 optionsFromFilename = Y.decodeFileEither >=>
   \case
     Left err -> die . prettyPrintParseException $ err
@@ -40,4 +41,4 @@ recurseUp :: FilePath -> [FilePath]
 recurseUp = unfoldr go
   where
     go "/" =  Nothing
-    go path = Just (takeDirectory path, takeDirectory path)
+    go path = Just (path, takeDirectory path)

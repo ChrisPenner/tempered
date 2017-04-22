@@ -31,7 +31,7 @@ handleTemplateError (Right temp) = return temp
 
 templateP :: Parser (Template Command)
 templateP = "template" ?> do
-  optional shebangP
+  optional (try shebangP)
   contents <- many (cmd <|> txt)
   eof
   return $ Template contents
@@ -41,10 +41,11 @@ templateP = "template" ?> do
 
 shebangP :: Parser String
 shebangP = "shebang" ?>
-  liftA2 (++) (string "#!") (manyTill anyChar (char '\n'))
+  liftA2 (++) (lookAhead (string "#!") *> string "#!") (manyTill anyChar (char '\n'))
 
 commandP :: Parser Command
 commandP = "command" ?> do
   _ <- string "{{"
   cmdString <- manyTill anyChar (string "}}")
+  optional newline
   return $ Command cmdString

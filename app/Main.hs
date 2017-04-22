@@ -4,6 +4,7 @@ import System.Environment
 import System.Directory
 
 import Data.Foldable
+import qualified Data.Map as M
 import Control.Monad.Reader
 
 import Plated.Options
@@ -15,13 +16,16 @@ main = do
   envVars <- getEnvVars
   filenames <- getArgs
   templates <- traverse (templateFromFile >=> handleTemplateError) filenames
-  runReaderT (renderOutput templates) (Just envVars)
+  runReaderT (renderOutput templates) envVars
   where
     renderOutput = traverse_ (interpTemplate  >=> liftIO . putStr)
 
 getEnvVars :: IO EnvVars
 getEnvVars = do
   cwd <- getCurrentDirectory
-  envVars <- getProjectOptions cwd
-  envTemplates <- traverse (handleTemplateError . parseTemplate "env.yaml") envVars
-  runReaderT (traverse interpTemplate envTemplates) mempty
+  globalEnvVars <- getEnvironment
+  localEnvVars <- getProjectOptions cwd
+  envTemplates <- traverse (handleTemplateError . parseTemplate "env.yaml") localEnvVars
+  interpolatedLocalEnvVars <- runReaderT (traverse interpTemplate envTemplates) mempty
+  -- Precedence to local env vars; last in list has precedence
+  return (globalEnvVars ++ M.toList interpolatedLocalEnvVars)
