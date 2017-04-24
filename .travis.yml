@@ -1,9 +1,7 @@
-language: go
-after_success:
-- sh tools/attach-binary.sh
-before_install:
-- sh tools/install-stack.sh
-- go get -u github.com/tcnksm/ghr
+language: generic
+sudo: false
+go:
+- 1.7.x
 cache:
   directories:
   - $HOME/.local/bin
@@ -11,7 +9,12 @@ cache:
 os:
 - linux
 - osx
+before_install:
+- sh tools/install-stack.sh
+install:
+- go get -u github.com/tcnksm/ghr
 script:
 - stack setup
 - stack build --ghc-options -O2 --pedantic
-sudo: false
+after_success:
+- sh tools/attach-binary.sh
