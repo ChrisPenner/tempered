@@ -65,7 +65,21 @@ interpolate that
 Installation
 ============
 
-`stack update && stack install tempered`
+Mac and Linux binaries are provided [HERE](https://github.com/ChrisPenner/tempered/releases/latest);
+
+### Homebrew On Mac
+
+```
+brew update
+brew install ChrisPenner/tools/tempered
+```
+
+### Stack
+If you're familiar with Haskell Stack:
+
+```
+stack update && stack install tempered
+```
 
 FAQ
 =====
