@@ -12,6 +12,8 @@ os:
 before_install:
 - sh tools/install-stack.sh
 install:
+- export GOPATH="${TRAVIS_BUILD_DIR}/go"
+- export PATH="${TRAVIS_BUILD_DIR}/go/bin:$PATH"
 - go get -u github.com/tcnksm/ghr
 script:
 - stack setup
