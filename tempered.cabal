@@ -1,5 +1,5 @@
 name:                tempered
-version:             0.1.0.0
+version:             0.1.0
 synopsis: A dead-simple shell interpolation templating utility
 -- description: A dead-simple shell interpolation templating utility
 homepage:            https://github.com/ChrisPenner/tempered#readme

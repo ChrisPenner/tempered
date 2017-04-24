@@ -1,0 +1,21 @@
+addons:
+  apt:
+    packages:
+    - libgmp-dev
+after_success:
+- sh tools/attach-binary.sh
+before_install:
+- sh tools/install-stack.sh
+- sh tools/install-github-release.sh
+cache:
+  directories:
+  - $HOME/.local/bin
+  - $HOME/.stack
+os:
+- linux
+- osx
+script:
+- stack setup
+- stack build --ghc-options -O2 --pedantic
+sudo: false
+
