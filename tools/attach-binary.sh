@@ -10,15 +10,12 @@ then
 else
   echo "Attaching binary for $TRAVIS_OS_NAME to $TRAVIS_TAG..."
   BIN="$(stack path --local-install-root)/bin/tempered"
+  OWNER="$(echo "$TRAVIS_REPO_SLUG" | cut -f1 -d/)"
+  REPO="$(echo "$TRAVIS_REPO_SLUG" | cut -f2 -d/)"
+  BUNDLE_NAME="$REPO-$TRAVIS_TAG-$TRAVIS_OS_NAME.gz"
   chmod +x "$BIN"
-  gzip --best --to-stdout "$BIN" > tempered.gz
+  gzip --best --to-stdout "$BIN" > "$BUNDLE_NAME"
   echo "SHA256:"
-  shasum -a 256 tempered.gz
-  github-release upload \
-    --token "$GITHUB_TOKEN" \
-    --owner ChrisPenner \
-    --repo tempered \
-    --tag "$TRAVIS_TAG" \
-    --file tempered.gz \
-    --name "tempered-$TRAVIS_TAG-$TRAVIS_OS_NAME.gz"
+  shasum -a 256 "$BUNDLE_NAME"
+  ghr -t "$GITHUB_TOKEN" -u "$OWNER" -r "$REPO" --replace "$(git describe --tags)" "$BUNDLE_NAME"
 fi

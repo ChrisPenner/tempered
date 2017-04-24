@@ -1,12 +1,9 @@
-addons:
-  apt:
-    packages:
-    - libgmp-dev
+language: go
 after_success:
 - sh tools/attach-binary.sh
 before_install:
 - sh tools/install-stack.sh
-- sh tools/install-github-release.sh
+- go get -u github.com/tcnksm/ghr
 cache:
   directories:
   - $HOME/.local/bin
@@ -18,4 +15,3 @@ script:
 - stack setup
 - stack build --ghc-options -O2 --pedantic
 sudo: false
-
