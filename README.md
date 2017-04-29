@@ -82,6 +82,10 @@ $ ./test.txt
 interpolate that
 ```
 
+Shell not powerful enough for you? No problem! Use all your favourite languages and
+tools; See the FAQ or examples to see how to integrate with scripts (spoilers, just call them like you do in bash!)
+
+
 [**Examples Here**](https://github.com/ChrisPenner/tempered/tree/master/examples)
 
 Installation
@@ -148,6 +152,46 @@ done }}
 99 bottles of beer on the wall
 98 bottles of beer on the wall
 97 bottles of beer on the wall
+```
+
+### Other Scripts/Tools?
+
+Duh! Interpolation works like a shell, just call the scripts or binaries you want!
+Here we'll use a simple python script to spice things up!
+
+```python
+# favourites.py
+import sys
+
+print(" and ".join(sys.argv[1:]) + ",")
+print("These are a few of my favourite things")
+```
+
+```
+# My Favourite Things
+
+{{ python favourites.py Gumdrops Roses Whiskers Kittens }}
+
+When the dog bites
+When the bee stings
+When I'm feeling sad
+I simply remember my favourite things
+And then I don't feel so bad
+```
+
+Output:
+
+```
+# My Favourite Things
+
+Gumdrops and Roses and Whiskers and Kittens,
+These are a few of my favourite things
+
+When the dog bites
+When the bee stings
+When I'm feeling sad
+I simply remember my favourite things
+And then I don't feel so bad
 ```
 
 ### \_\_: command not found?
