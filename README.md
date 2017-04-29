@@ -40,7 +40,17 @@ Check me out on twitter @chrislpenner!
 See you next time!
 ```
 
-Then we can render the template with `tempered ./post.md` to get:
+Then we can render the template with 
+
+```
+tempered ./post.md
+
+# OR
+
+cat ./post.md | tempered
+```
+
+to get:
 
 ```
 # My Blog Post
