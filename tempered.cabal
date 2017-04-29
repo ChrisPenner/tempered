@@ -1,5 +1,5 @@
 name:                tempered
-version:             0.1.0
+version:             0.2.0
 synopsis: A dead-simple shell interpolation templating utility
 -- description: A dead-simple shell interpolation templating utility
 homepage:            https://github.com/ChrisPenner/tempered#readme
@@ -37,6 +37,9 @@ executable tempered
                      , mtl
                      , tempered
                      , containers
+                     , optparse-applicative
+-- Required for --version flag
+  other-modules:       Paths_tempered
   default-language:    Haskell2010
 
 test-suite tempered-test

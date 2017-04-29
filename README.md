@@ -6,6 +6,18 @@ Tempered
 A dead-simple templating utility for simple shell interpolation.
 Use at your own risk and only on trusted templates.
 
+```bash
+$ tempered --help
+Tempered - Templating engine based on shell interpolation
+
+Usage: tempered [templates]
+  Interpolate templates to stdout
+
+Available options:
+  templates                The templates to interpolate
+  -h,--help                Show this help text
+```
+
 Here's a simple use-case:
 
 ```md
